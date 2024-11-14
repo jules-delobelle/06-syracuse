@@ -1,100 +1,95 @@
-#### Fonctions secondaires
-
+"""
+Ce module calcule et affiche des propriétés de la suite de Syracuse.
+"""
 
 # imports
 from plotly.graph_objects import Scatter, Figure
 
-### NE PAS MODIFIER ###
 def syr_plot(lsyr):
-    title = "Syracuse" + " (n = " + str(lsyr[0]) + " )"
-    fig = Figure({  'layout':   { 'title': {'text': title},
-                                'xaxis': {'title': {'text':"x"}},
-                                'yaxis': {'title': {'text':"y"}},
-                                }
-                }
-    )
-
-    x = [ i for i in range(len(lsyr)) ]
-    t = Scatter(x=x, y=lsyr, mode="lines+markers", marker_color = "blue")
-    fig.add_trace(t)
-    fig.show()
-    # fig.write_html('fig.html', include_plotlyjs='cdn')
-    return None
-#######################
-
-def syracuse_l(n):
-    """retourne la suite de Syracuse de source n
+    """
+    Génère et affiche un graphique de la suite de Syracuse.
 
     Args:
-        n (int): la source de la suite
+        lsyr (list): La suite de Syracuse
+    """
+    title = "Syracuse" + " (n = " + str(lsyr[0]) + " )"
+    fig = Figure({
+        'layout': {
+            'title': {'text': title},
+            'xaxis': {'title': {'text': "x"}},
+            'yaxis': {'title': {'text': "y"}},
+        }
+    })
+
+    x = list(range(len(lsyr)))
+    t = Scatter(x=x, y=lsyr, mode="lines+markers", marker_color="blue")
+    fig.add_trace(t)
+    fig.show()
+
+def syracuse_l(n):
+    """
+    Retourne la suite de Syracuse de source n.
+
+    Args:
+        n (int): La source de la suite
 
     Returns:
-        list: la suite de Syracuse de source n
+        list: La suite de Syracuse de source n
     """
-
-    # votre code ici 
-    l = [ ]
+    l = [n]
+    while n not in (1, 0):
+        if n % 2 == 0:
+            n = n / 2
+        else:
+            n = 3 * n + 1
+        l.append(n)
     return l
 
 def temps_de_vol(l):
-    """Retourne le temps de vol d'une suite de Syracuse
+    """
+    Retourne le temps de vol d'une suite de Syracuse.
 
     Args:
-        l (list): la suite de Syracuse
+        l (list): La suite de Syracuse
 
     Returns:
-        int: le temps de vol
+        int: Le temps de vol
     """
-    
-    # votre code ici
-
-    n = 0
-    return n
+    return len(l) - 1
 
 def temps_de_vol_en_altitude(l):
-    """Retourne le temps de vol en altitude d'une suite de Syracuse
+    """
+    Retourne le temps de vol en altitude d'une suite de Syracuse.
 
     Args:
-        l (list): la suite de Syracuse
+        l (list): La suite de Syracuse
 
     Returns:
-        int: le temps de vol en altitude
+        int: Le temps de vol en altitude
     """
-
-    # votre code ici
-
-    n = 0
-    return n
-
+    return next(i for i, x in enumerate(l) if x < l[0]) - 1
 
 def altitude_maximale(l):
-    """retourne l'altitude maximale d'une suite de Syracuse
+    """
+    Retourne l'altitude maximale d'une suite de Syracuse.
 
     Args:
-        l (list): la suite de Syracuse
+        l (list): La suite de Syracuse
 
     Returns:
-        int: l'altitude maximale
+        int: L'altitude maximale
     """
-    
-    # votre code ici
-    
-    n = 0
-    return n
-
-
-#### Fonction principale
-
+    return max(l)
 
 def main():
-
-    # vos appels à la fonction secondaire ici
+    """
+    Fonction principale qui exécute les appels aux fonctions de Syracuse.
+    """
     lsyr = syracuse_l(15)
     syr_plot(lsyr)
     print(temps_de_vol(lsyr))
     print(temps_de_vol_en_altitude(lsyr))
     print(altitude_maximale(lsyr))
-
 
 if __name__ == "__main__":
     main()
